@@ -2,7 +2,7 @@
 
 **Slash enterprise AI costs and maximize Performance-per-Watt by routing queries to right-sized models on Arm Neoverse CPUs.**
 
-### 📋 Hackathon Rubric Mapping Table
+### Hackathon Rubric Mapping Table
 | Judging Criterion | Implementation File Path | Description |
 | :--- | :--- | :--- |
 | **Arm64 Cloud Inference Performance** | [`local-runtime/engine.py`](file:///Users/ikhaisoshuare/ARM%20CREATE/local-runtime/engine.py) | Raw execution via `vLLM` using Arm Compute Library (ACL) and INT4 quantization for max TTFT efficiency. |
@@ -17,7 +17,7 @@ ARM-TRIAGE acts as an intelligent, hardware-aware gateway powered by **Arm Perfo
 - **Simple / Right-Sized Context?** Route to a local Arm-optimized node (vLLM powered by **KleidiAI 4-bit micro-kernels**) to maximize Performance-per-Watt.
 - **Complex / Hardware Saturated?** Route to a large cloud model (OpenAI/Anthropic) as a fallback.
 
-## 🏆 Hackathon Impact (Why this matters)
+## Hackathon Impact (Why this matters)
 1. **Cost Savings**: By routing 60-80% of standard traffic to edge/local Arm nodes, API bills drop drastically.
 2. **Arm64 Performance**: Leverages KleidiAI and SME2 optimizations on Arm to ensure local TTFT (Time to First Token) beats cloud latency.
 3. **Full Observability**: Integrated with OpenTelemetry (SigNoz) to prove cost savings and latency improvements in real-time.
@@ -53,7 +53,7 @@ graph TD
     end
 ```
 
-## 🚀 OCI Ampere A1 Deployment Guide
+## OCI Ampere A1 Deployment Guide
 
 ARM-TRIAGE is a 100% defensible, production-grade middleware designed as a reusable artifact for Arm64 cloud infrastructure. It natively compiles against the Arm Compute Library via oneDNN and KleidiAI on **Oracle Cloud Infrastructure (OCI) Ampere A1 (Arm Neoverse)** instances.
 
@@ -63,18 +63,26 @@ ARM-TRIAGE is a 100% defensible, production-grade middleware designed as a reusa
 3. Allocate **2-4 OCPUs** and **12-24 GB of RAM** (Always Free tier).
 4. Use **Oracle Linux 8 (aarch64)** or **Ubuntu 22.04 (Arm)**.
 
-### Step 2: Install Dependencies
-SSH into your Ampere A1 instance and run the setup script to compile vLLM natively for Arm:
+### Step 2: Install as a Global Package
+SSH into your Ampere A1 instance, clone the repository, and use `pip` to install the `arm-triage` enterprise CLI globally:
 ```bash
 git clone https://github.com/yourusername/arm-triage.git
 cd arm-triage
+pip install -e .
 ./scripts/setup.sh
 ```
 
-### 2. Launch the Demo UI
-Start the real-time Streamlit dashboard to visualize the routing decisions and cost savings live.
+### Step 3: Launching ARM-TRIAGE
+Once installed, the `arm-triage` command is available directly in your terminal.
+
+**To boot the Live Dashboard:**
 ```bash
-streamlit run demo/app.py
+arm-triage serve
+```
+
+**To run a headless routing evaluation (Server environments):**
+```bash
+arm-triage route "Summarize the history of Arm processors."
 ```
 
 ## License

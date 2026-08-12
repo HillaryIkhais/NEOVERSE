@@ -2,10 +2,13 @@ import time
 import os
 from typing import Dict, Any
 
-try:
-    from vllm import LLM, SamplingParams
-except ImportError:
-    raise ImportError("CRITICAL: vLLM is not installed. ARM-TRIAGE must be deployed on an Arm64 Linux environment (e.g., Oracle Cloud Ampere A1) with vLLM installed to utilize the Arm Compute Library (ACL).")
+DEMO_MODE = os.environ.get("ARM_TRIAGE_DEMO") == "1"
+
+if not DEMO_MODE:
+    try:
+        from vllm import LLM, SamplingParams
+    except ImportError:
+        raise ImportError("CRITICAL: vLLM is not installed. ARM-TRIAGE must be deployed on an Arm64 Linux environment (e.g., Oracle Cloud Ampere A1) with vLLM installed to utilize the Arm Compute Library (ACL).")
 
 class LocalInferenceEngine:
     """
@@ -20,6 +23,10 @@ class LocalInferenceEngine:
         self._load_model()
 
     def _load_model(self):
+        if DEMO_MODE:
+            print("🚨 ARM_TRIAGE_DEMO MODE ACTIVE: Bypassing vLLM hardware checks for local macOS execution.")
+            return
+
         full_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), self.model_path)
             
         print(f"Loading INT4 Quantized model from {full_path}")
@@ -36,6 +43,18 @@ class LocalInferenceEngine:
         """
         Executes local inference and returns the response alongside strict OpenTelemetry hardware metrics.
         """
+        if DEMO_MODE:
+            time.sleep(0.3) # Simulate fast Arm64 execution
+            return {
+                "text": "This is a simulated response generated directly on the simulated Arm Neoverse cores using KleidiAI.",
+                "metrics": {
+                    "latency_sec": 0.300,
+                    "tokens_per_sec": 450.0,
+                    "output_tokens": 135,
+                    "engine": "vllm-arm64-kleidiai-int4"
+                }
+            }
+
         start_time = time.time()
         
         sampling_params = SamplingParams(max_tokens=max_tokens, temperature=0.1)
