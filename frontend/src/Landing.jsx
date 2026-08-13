@@ -14,7 +14,7 @@ export default function Landing({ onEnter }) {
         </nav>
         
         <div className="time-panel">
-          <span className="label">ARM-TRIAGE</span>
+          <span className="label">NEOVERSE</span>
           <span className="value">Oracle Cloud Ampere A1</span>
         </div>
       </header>
@@ -28,7 +28,7 @@ export default function Landing({ onEnter }) {
           </h1>
           <p className="hero-copy anim-fade-up" style={{ animationDelay: '800ms' }}>
             Your inference queries are scattered across expensive endpoints.<br/>
-            ARM-TRIAGE routes them locally to Arm64 first, so every<br/>
+            NEOVERSE routes them locally to Arm64 first, so every<br/>
             decision is backed by efficiency you actually trust.
           </p>
           <button className="primary-cta anim-fade-up" style={{ animationDelay: '1000ms' }} onClick={onEnter}>

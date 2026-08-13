@@ -88,7 +88,7 @@ export default function Dashboard({ onBack }) {
       console.error(error)
       const errorMsg = {
         role: 'assistant',
-        content: 'Connection to ARM-TRIAGE API failed. Ensure the server is running.',
+        content: 'Connection to NEOVERSE API failed. Ensure the server is running.',
         meta: 'SYSTEM ERROR',
         badgeClass: 'fallback',
         badgeText: 'ERROR',
@@ -111,7 +111,7 @@ export default function Dashboard({ onBack }) {
             </svg>
             Back to Home
           </button>
-          <h1 className="dash-brand-title">ARM-TRIAGE</h1>
+          <h1 className="dash-brand-title">NEOVERSE</h1>
           <p className="dash-brand-subtitle">Oracle Cloud Ampere A1 (aarch64) • vLLM • KleidiAI</p>
         </div>
         
@@ -127,7 +127,7 @@ export default function Dashboard({ onBack }) {
           <div className="panel-header naive-header">
             <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-              Naive Cloud Routing
+              Standard Cloud Gateway
             </h2>
             <p className="panel-subtitle">Sends everything to the cloud. High Cost, High Latency.</p>
           </div>
@@ -138,7 +138,7 @@ export default function Dashboard({ onBack }) {
                 <div className="empty-state-icon">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
                 </div>
-                <h3>Standard Cloud Route</h3>
+                <h3>Standard Cloud Gateway</h3>
                 <p>See how a generic endpoint handles your query in terms of latency and cost.</p>
                 <div className="suggested-prompts">
                   <button className="suggested-btn" onClick={() => setPrompt('Write a python script to reverse a string')}>
@@ -170,7 +170,7 @@ export default function Dashboard({ onBack }) {
           <div className="panel-header triage-header">
             <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              ARM-TRIAGE
+              NEOVERSE
             </h2>
             <p className="panel-subtitle">Routes to local Arm64 node (INT4) first. Zero API cost.</p>
           </div>
@@ -182,7 +182,7 @@ export default function Dashboard({ onBack }) {
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                 </div>
                 <h3>Test the Router</h3>
-                <p>Send a prompt to see if ARM-TRIAGE can intercept it locally, or if it routes it to the cloud.</p>
+                <p>Send a prompt to see if NEOVERSE can intercept it locally, or if it routes it to the cloud.</p>
                 <div className="suggested-prompts">
                   <button className="suggested-btn" onClick={() => setPrompt('Summarize the theory of relativity')}>
                     "Summarize the theory of relativity"

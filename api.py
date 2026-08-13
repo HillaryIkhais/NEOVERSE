@@ -24,7 +24,7 @@ engine_mod = module_from_spec(spec_engine)
 sys.modules["engine"] = engine_mod
 spec_engine.loader.exec_module(engine_mod)
 
-app = FastAPI(title="ARM-TRIAGE API")
+app = FastAPI(title="NEOVERSE API")
 
 app.add_middleware(
     CORSMiddleware,
