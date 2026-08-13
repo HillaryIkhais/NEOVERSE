@@ -1,5 +1,23 @@
 import { useState, useEffect } from 'react'
 
+const TypewriterText = ({ text }) => {
+  const [displayed, setDisplayed] = useState('')
+  useEffect(() => {
+    let i = 0
+    setDisplayed('')
+    const timer = setInterval(() => {
+      if (i < text.length) {
+        setDisplayed(prev => prev + text.charAt(i))
+        i++
+      } else {
+        clearInterval(timer)
+      }
+    }, 15) // 15ms per char = extremely fast streaming
+    return () => clearInterval(timer)
+  }, [text])
+  return <>{displayed}</>
+}
+
 export default function Dashboard({ onBack }) {
   const [prompt, setPrompt] = useState('')
   const [historyNaive, setHistoryNaive] = useState([])
@@ -161,7 +179,9 @@ export default function Dashboard({ onBack }) {
             ) : (
               historyNaive.map((msg, idx) => (
                 <div key={idx} className={`message ${msg.role}`}>
-                  <div className="content">{msg.content}</div>
+                  <div className="content">
+                    {msg.role === 'assistant' ? <TypewriterText text={msg.content} /> : msg.content}
+                  </div>
                   {msg.meta && (
                     <div className="meta">
                       <span className={`meta-badge ${msg.badgeClass}`}>{msg.badgeText}</span>
@@ -204,7 +224,9 @@ export default function Dashboard({ onBack }) {
             ) : (
               historyTriage.map((msg, idx) => (
                 <div key={idx} className={`message ${msg.role} ${msg.isError ? 'fallback' : ''}`}>
-                  <div className="content">{msg.content}</div>
+                  <div className="content">
+                    {msg.role === 'assistant' ? <TypewriterText text={msg.content} /> : msg.content}
+                  </div>
                   {msg.meta && (
                     <div className="meta">
                       <span className={`meta-badge ${msg.badgeClass}`}>{msg.badgeText}</span>
