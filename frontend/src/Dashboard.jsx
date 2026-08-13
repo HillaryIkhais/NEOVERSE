@@ -141,11 +141,11 @@ export default function Dashboard({ onBack }) {
                 <h3>Standard Cloud Gateway</h3>
                 <p>See how a standard cloud endpoint handles your query in terms of latency and cost.</p>
                 <div className="suggested-prompts">
-                  <button className="suggested-btn" onClick={() => setPrompt('Write a python script to reverse a string')}>
-                    "Write a python script to reverse a string"
+                  <button className="suggested-btn" onClick={() => setPrompt('Extract the names and emails from this text block.')}>
+                    "Extract the names and emails from this text block."
                   </button>
-                  <button className="suggested-btn" onClick={() => setPrompt('What is the capital of France?')}>
-                    "What is the capital of France?"
+                  <button className="suggested-btn" onClick={() => setPrompt('Translate this welcome message to French.')}>
+                    "Translate this welcome message to French."
                   </button>
                 </div>
               </div>
@@ -184,11 +184,11 @@ export default function Dashboard({ onBack }) {
                 <h3>Test the Router</h3>
                 <p>Send a prompt to see if NEOVERSE can intercept it locally, or if it routes it to the cloud.</p>
                 <div className="suggested-prompts">
-                  <button className="suggested-btn" onClick={() => setPrompt('Summarize the theory of relativity')}>
-                    "Summarize the theory of relativity"
+                  <button className="suggested-btn" onClick={() => setPrompt('Format this JSON payload into a readable list.')}>
+                    "Format this JSON payload into a readable list."
                   </button>
-                  <button className="suggested-btn" onClick={() => setPrompt('What is the meaning of life?')}>
-                    "What is the meaning of life?"
+                  <button className="suggested-btn" onClick={() => setPrompt('Analyze the system architecture of our microservices and evaluate latency tradeoffs.')}>
+                    "Analyze the system architecture of our microservices and evaluate latency tradeoffs."
                   </button>
                 </div>
               </div>
