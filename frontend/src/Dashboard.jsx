@@ -139,7 +139,7 @@ export default function Dashboard({ onBack }) {
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
                 </div>
                 <h3>Standard Cloud Gateway</h3>
-                <p>See how a generic endpoint handles your query in terms of latency and cost.</p>
+                <p>See how a standard cloud endpoint handles your query in terms of latency and cost.</p>
                 <div className="suggested-prompts">
                   <button className="suggested-btn" onClick={() => setPrompt('Write a python script to reverse a string')}>
                     "Write a python script to reverse a string"
