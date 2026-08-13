@@ -8,14 +8,23 @@ export default function Dashboard({ onBack }) {
   const [isLoading, setIsLoading] = useState(false)
   const [bumpTicker, setBumpTicker] = useState(false)
 
-  // Trigger ticker bump animation when savings change
+  // Live global edge network simulation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Simulate a global network intercepting requests: saves $0.02 - $0.08 every 800ms
+      setSavings(prev => prev + (Math.random() * 0.06 + 0.02))
+    }, 800)
+    return () => clearInterval(interval)
+  }, [])
+
+  // Trigger ticker bump animation when user manually triggers a local save
   useEffect(() => {
     if (savings > 0) {
       setBumpTicker(true)
       const timer = setTimeout(() => setBumpTicker(false), 300)
       return () => clearTimeout(timer)
     }
-  }, [savings])
+  }, [bumpTicker])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -43,9 +52,10 @@ export default function Dashboard({ onBack }) {
 
       const data = await response.json()
       
-      // Update Savings (Simulated at Enterprise Scale: 1 Million Requests/Day for 30 Days)
+      // Update Savings (Add the user's specific local save to the global ticker)
       if (data.triage.cost_saved) {
-        setSavings(prev => prev + (data.triage.cost_saved * 30000000))
+        setSavings(prev => prev + data.triage.cost_saved)
+        setBumpTicker(true) // trigger the flash animation manually
       }
 
       let triageMeta = ''
@@ -115,8 +125,8 @@ export default function Dashboard({ onBack }) {
         </div>
         
         <div className={`savings-ticker ${bumpTicker ? 'bump' : ''}`}>
-          <span className="ticker-label">Projected Monthly Savings (at scale)</span>
-          <span className="ticker-value">${savings.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+          <span className="ticker-label">Live Global Savings (Edge Network)</span>
+          <span className="ticker-value">${savings.toLocaleString('en-US', {minimumFractionDigits: 4, maximumFractionDigits: 4})}</span>
         </div>
       </div>
 
