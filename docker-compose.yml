@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  arm-triage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:8000"
+    restart: unless-stopped
+    environment:
+      # Optional: set env vars here if needed
+      - ARM_TRIAGE_DEMO=0
+    # Add deploy resources if you want to limit CPU/Memory
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '4'
+    #       memory: 24G

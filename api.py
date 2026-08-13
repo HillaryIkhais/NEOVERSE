@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import sys
@@ -109,4 +111,20 @@ async def evaluate_route(req: RouteRequest):
             "cost": 0.0050
         }
         
+        
     return response_payload
+
+# Mount the static Vite build directory
+frontend_dist = os.path.join(base_dir, "frontend", "dist")
+
+# Only mount static files if the dist folder exists (e.g. built for production)
+if os.path.exists(frontend_dist):
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+    
+    # Catch-all route for SPA client-side routing
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        file_path = os.path.join(frontend_dist, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
