@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react'
 
 const TypewriterText = ({ text }) => {
-  const [displayed, setDisplayed] = useState('')
+  const [displayedLength, setDisplayedLength] = useState(0);
+
   useEffect(() => {
-    let i = 0
-    setDisplayed('')
+    setDisplayedLength(0);
     const timer = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(prev => prev + text.charAt(i))
-        i++
-      } else {
-        clearInterval(timer)
-      }
-    }, 15) // 15ms per char = extremely fast streaming
-    return () => clearInterval(timer)
-  }, [text])
-  return <>{displayed}</>
+      setDisplayedLength(prev => {
+        if (prev < text.length) return prev + 1;
+        clearInterval(timer);
+        return prev;
+      });
+    }, 15);
+    return () => clearInterval(timer);
+  }, [text]);
+
+  return <>{text.substring(0, displayedLength)}</>;
 }
 
 export default function Dashboard({ onBack }) {
