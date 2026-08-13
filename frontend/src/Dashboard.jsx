@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function Dashboard() {
+export default function Dashboard({ onBack }) {
   const [prompt, setPrompt] = useState('')
   const [historyNaive, setHistoryNaive] = useState([])
   const [historyTriage, setHistoryTriage] = useState([])
@@ -31,7 +31,7 @@ export default function Dashboard() {
     setHistoryTriage(prev => [...prev, userMsg])
 
     try {
-      const response = await fetch('http://localhost:8000/api/route', {
+      const response = await fetch('/api/route', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: currentPrompt })
@@ -103,65 +103,113 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <div className="dashboard-header">
+      <div className="dashboard-header anim-fade" style={{ animationDelay: '0ms' }}>
         <div>
+          <button className="back-button" onClick={onBack}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Home
+          </button>
           <h1 className="dash-brand-title">ARM-TRIAGE</h1>
           <p className="dash-brand-subtitle">Oracle Cloud Ampere A1 (aarch64) • vLLM • KleidiAI</p>
         </div>
         
         <div className={`savings-ticker ${bumpTicker ? 'bump' : ''}`}>
           <span className="ticker-label">Cloud Cost Avoided</span>
-          <span className="ticker-value">\${savings.toFixed(4)}</span>
+          <span className="ticker-value">${savings.toFixed(4)}</span>
         </div>
       </div>
 
       <div className="split-screen">
         {/* Naive Panel */}
-        <div className="panel naive">
+        <div className="panel naive anim-fade-up" style={{ animationDelay: '200ms' }}>
           <div className="panel-header naive-header">
-            <h2>☁️ Naive Cloud Routing</h2>
+            <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+              Naive Cloud Routing
+            </h2>
             <p className="panel-subtitle">Sends everything to the cloud. High Cost, High Latency.</p>
           </div>
           
           <div className="chat-history">
-            {historyNaive.map((msg, idx) => (
-              <div key={idx} className={`message ${msg.role}`}>
-                <div className="content">{msg.content}</div>
-                {msg.meta && (
-                  <div className="meta">
-                    <span className={`meta-badge ${msg.badgeClass}`}>{msg.badgeText}</span>
-                    <span>{msg.meta}</span>
-                  </div>
-                )}
+            {historyNaive.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-state-icon">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                </div>
+                <h3>Standard Cloud Route</h3>
+                <p>See how a generic endpoint handles your query in terms of latency and cost.</p>
+                <div className="suggested-prompts">
+                  <button className="suggested-btn" onClick={() => setPrompt('Write a python script to reverse a string')}>
+                    "Write a python script to reverse a string"
+                  </button>
+                  <button className="suggested-btn" onClick={() => setPrompt('What is the capital of France?')}>
+                    "What is the capital of France?"
+                  </button>
+                </div>
               </div>
-            ))}
+            ) : (
+              historyNaive.map((msg, idx) => (
+                <div key={idx} className={`message ${msg.role}`}>
+                  <div className="content">{msg.content}</div>
+                  {msg.meta && (
+                    <div className="meta">
+                      <span className={`meta-badge ${msg.badgeClass}`}>{msg.badgeText}</span>
+                      <span>{msg.meta}</span>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
 
         {/* Triage Panel */}
-        <div className="panel triage">
+        <div className="panel triage anim-fade-up" style={{ animationDelay: '400ms' }}>
           <div className="panel-header triage-header">
-            <h2>⚡ ARM-TRIAGE</h2>
+            <h2 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              ARM-TRIAGE
+            </h2>
             <p className="panel-subtitle">Routes to local Arm64 node (INT4) first. Zero API cost.</p>
           </div>
           
           <div className="chat-history">
-            {historyTriage.map((msg, idx) => (
-              <div key={idx} className={`message ${msg.role} ${msg.isError ? 'fallback' : ''}`}>
-                <div className="content">{msg.content}</div>
-                {msg.meta && (
-                  <div className="meta">
-                    <span className={`meta-badge ${msg.badgeClass}`}>{msg.badgeText}</span>
-                    <span>{msg.meta}</span>
-                  </div>
-                )}
+            {historyTriage.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-state-icon">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <h3>Test the Router</h3>
+                <p>Send a prompt to see if ARM-TRIAGE can intercept it locally, or if it routes it to the cloud.</p>
+                <div className="suggested-prompts">
+                  <button className="suggested-btn" onClick={() => setPrompt('Summarize the theory of relativity')}>
+                    "Summarize the theory of relativity"
+                  </button>
+                  <button className="suggested-btn" onClick={() => setPrompt('What is the meaning of life?')}>
+                    "What is the meaning of life?"
+                  </button>
+                </div>
               </div>
-            ))}
+            ) : (
+              historyTriage.map((msg, idx) => (
+                <div key={idx} className={`message ${msg.role} ${msg.isError ? 'fallback' : ''}`}>
+                  <div className="content">{msg.content}</div>
+                  {msg.meta && (
+                    <div className="meta">
+                      <span className={`meta-badge ${msg.badgeClass}`}>{msg.badgeText}</span>
+                      <span>{msg.meta}</span>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="input-container">
+      <form onSubmit={handleSubmit} className="input-container anim-fade-up" style={{ animationDelay: '600ms' }}>
         <input 
           type="text" 
           value={prompt} 

@@ -15,7 +15,7 @@
   font-family: "Reference Sans", Arial, sans-serif;
   --bg-dark: #000;
   --glass-border: rgba(255, 255, 255, 0.13);
-  --glass-bg: linear-gradient(145deg, rgba(24, 22, 20, 0.8), rgba(5, 12, 14, 0.86));
+  --glass-bg: linear-gradient(145deg, rgba(24, 22, 20, 0.4), rgba(5, 12, 14, 0.6));
   --glass-shadow: 0 2px 10px rgba(0, 0, 0, 0.44), 0 0 0 3px rgba(255, 255, 255, 0.035) inset, 0 0 0 1px rgba(0, 0, 0, 0.9);
   
   --accent-green: #00ff88;
@@ -54,6 +54,7 @@ html, body {
 #root {
   width: 100%;
   height: 100%;
+  isolation: isolate;
 }
 
 .viewport {
@@ -84,8 +85,19 @@ html, body {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: scale(1.05); /* Pushes the video tag/watermark off the screen */
   pointer-events: none;
   user-select: none;
+}
+
+/* Hide Safari's giant native play button when autoplay fails */
+.background::-webkit-media-controls,
+.background::-webkit-media-controls-panel,
+.background::-webkit-media-controls-play-button,
+.background::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  opacity: 0 !important;
+  -webkit-appearance: none !important;
 }
 
 .screen::before {
@@ -241,14 +253,19 @@ html, body {
 }
 
 .primary-cta {
-  width: clamp(170px, 16vh, 200px);
+  width: max-content;
+  min-width: 170px;
+  padding: 0 6px 0 20px;
   height: var(--cta-height);
   border-radius: 7px;
   background: #fff;
   color: #111;
   box-shadow: 0 1px 5px rgba(0,0,0,.38);
   border: none;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   cursor: pointer;
   font-family: inherit;
   transition: filter 140ms, transform 140ms;
@@ -260,22 +277,15 @@ html, body {
 }
 
 .primary-cta .label {
-  position: absolute;
-  left: 8.125%;
-  top: 50%;
-  transform: translateY(-50%);
   font-size: var(--primary-control-font-size);
   font-weight: 700;
   letter-spacing: -.3px;
 }
 
 .primary-cta .arrow-box {
-  position: absolute;
-  right: 3.125%;
-  top: 14.286%;
-  width: 20.625%;
+  width: clamp(28px, 3vh, 32px);
   height: 71.429%;
-  border-radius: 7px;
+  border-radius: 5px;
   background: #070909;
   display: flex;
   align-items: center;
@@ -315,6 +325,52 @@ html, body {
   height: 100%;
   object-fit: cover;
   filter: brightness(.89) saturate(.93) contrast(1.03);
+}
+
+.play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-left: 2px;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.play:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(0,0,0,.8);
+}
+
+.watch-button {
+  position: absolute;
+  left: 5%;
+  bottom: 5%;
+  width: 90%;
+  height: clamp(34px, 4.4vh, 46px);
+  border-radius: 6px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  color: #fff;
+  font-family: inherit;
+  font-size: clamp(12px, 1.415vh, 15px);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.watch-button:hover {
+  background: rgba(255,255,255,.08);
 }
 
 /* Dashboard Specific CSS */
@@ -564,6 +620,275 @@ html, body {
   animation: spin 0.8s linear infinite;
 }
 
+/* Phase 15: Empty States & Back Button */
+@keyframes borderSpin {
+  100% { transform: rotate(360deg); }
+}
+
+.primary-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: transparent;
+  color: #fff;
+  padding: 8px 8px 8px 24px;
+  border-radius: 9999px;
+  font-family: 'Reference Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
+}
+
+.primary-cta::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+  z-index: -2;
+  transition: opacity 0.4s;
+}
+
+.primary-cta::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(255,255,255,1) 15%, transparent 30%);
+  z-index: -2;
+  opacity: 0;
+  animation: borderSpin 3s linear infinite;
+  transition: opacity 0.4s;
+}
+
+.primary-cta-inner-bg {
+  position: absolute;
+  inset: 1px;
+  background: #000;
+  border-radius: 9999px;
+  z-index: -1;
+  transition: background 0.4s;
+}
+
+.primary-cta .arrow-box {
+  background: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s;
+}
+
+.primary-cta .arrow-box svg {
+  stroke: #000;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.primary-cta:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
+}
+
+.primary-cta:hover::after {
+  opacity: 1;
+}
+
+.primary-cta:hover .primary-cta-inner-bg {
+  background: #111;
+}
+
+.primary-cta:hover .arrow-box {
+  transform: translateX(4px) rotate(-45deg);
+  background: #ededed;
+}
+
+.primary-cta:hover .arrow-box svg {
+  transform: rotate(45deg); /* Counter rotate arrow slightly to keep it pointing right-up */
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(226, 229, 228, 0.84);
+  font-family: 'Reference Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.back-button:hover {
+  color: #fff;
+  transform: translateX(-4px);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.empty-state h3 {
+  font-family: 'Reference Display', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #fff;
+  margin: 0 0 0.75rem 0;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0;
+}
+
+.empty-state-metrics {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.metric-value {
+  font-family: 'Reference Display', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.metric-item.green .metric-value { color: var(--accent-green); }
+.metric-item.blue .metric-value { color: var(--accent-blue); }
+
+.metric-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
+/* Phase 16: Tabs & Suggested Prompts */
+.tab-content {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.tab-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.tab-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.suggested-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 340px;
+}
+
+.suggested-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Reference Sans', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.suggested-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* --- Phase 14: Dynamic Choreography --- */
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes textRevealSkew {
+  0% { opacity: 0; transform: translateY(100%) skewY(5deg); }
+  100% { opacity: 1; transform: translateY(0) skewY(0); }
+}
+
+@keyframes cardSlideUp {
+  0% { opacity: 0; transform: translateY(40px) scale(0.95) rotateX(-5deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotateX(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.anim-fade-up {
+  opacity: 0;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-text-reveal {
+  opacity: 0;
+  transform-origin: left bottom;
+  animation: textRevealSkew 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-card {
+  opacity: 0;
+  perspective: 1000px;
+  animation: cardSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-fade {
+  opacity: 0;
+  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

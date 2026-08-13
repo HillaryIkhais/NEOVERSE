@@ -1,8 +1,9 @@
 import time
 import os
+import platform
 from typing import Dict, Any
 
-DEMO_MODE = os.environ.get("ARM_TRIAGE_DEMO") == "1"
+DEMO_MODE = os.environ.get("ARM_TRIAGE_DEMO") == "1" or platform.system() == "Darwin"
 
 if not DEMO_MODE:
     try:
