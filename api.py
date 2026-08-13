@@ -85,15 +85,27 @@ async def evaluate_route(req: RouteRequest):
         }
     elif decision == "CACHE_HIT":
         cost_saved = 100 * CLOUD_PRICE_PER_TOKEN
+        
+        # Realistic mock text for the cache hit
+        text = f"Processed locally on Arm64: {req.prompt}"
+        if "Extract the names" in req.prompt:
+            text = "Extracted Entities:\n- John Doe (john@example.com)\n- Jane Smith (jane@example.com)"
+        elif "Translate this welcome" in req.prompt:
+            text = "Bienvenue dans notre application ! Nous sommes ravis de vous avoir parmi nous."
+        elif "Format this JSON" in req.prompt:
+            text = "Formatted List:\n1. ID: 101, Status: Active\n2. ID: 102, Status: Pending\n3. ID: 103, Status: Resolved"
+        elif "Analyze the system architecture" in req.prompt:
+            text = "Architectural Analysis:\n- Microservices increase independent scaling but introduce network latency and distributed tracing complexity.\n- Recommended mitigation: Implement a service mesh (e.g. Istio) and gRPC for internal RPCs."
+            
         response_payload["triage"] = {
-            "text": f"Cached Decision: {decision_data.get('cached_route')}",
+            "text": text,
             "latency_sec": 0.0,
             "cost_saved": cost_saved,
             "tps": "MAX",
             "engine": "cache"
         }
         response_payload["naive"] = {
-            "text": "Standard response",
+            "text": text,
             "latency_sec": 1.5,
             "cost": cost_saved
         }
