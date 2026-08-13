@@ -82,7 +82,7 @@ neoverse serve
 
 **To run a headless routing evaluation (Server environments):**
 ```bash
-arm-triage route "Summarize the history of Arm processors."
+neoverse route "Summarize the history of Arm processors."
 ```
 
 ## License

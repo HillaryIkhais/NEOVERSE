@@ -39,7 +39,7 @@ try:
     engine = engine_mod.LocalInferenceEngine()
 except Exception as e:
     engine = None
-    print(f"Warning: Engine failed to load ({e}). Ensure you are on Arm64 or using ARM_TRIAGE_DEMO=1.")
+    print(f"Warning: Engine failed to load ({e}). Ensure you are on Arm64 or using NEOVERSE_DEMO=1.")
 
 class RouteRequest(BaseModel):
     prompt: str

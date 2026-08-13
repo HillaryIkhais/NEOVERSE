@@ -4,15 +4,15 @@ import os
 import subprocess
 
 def serve(args):
-    """Launches the full-stack ARM-TRIAGE application."""
+    """Launches the full-stack NEOVERSE application."""
     if getattr(args, "demo", False):
-        os.environ["ARM_TRIAGE_DEMO"] = "1"
-        print("🚨 ARM_TRIAGE_DEMO MODE ACTIVE 🚨")
+        os.environ["NEOVERSE_DEMO"] = "1"
+        print("🚨 NEOVERSE_DEMO MODE ACTIVE 🚨")
         
     base_dir = os.path.dirname(os.path.abspath(__file__))
     frontend_dir = os.path.join(base_dir, "frontend")
     
-    print("🚀 Booting ARM-TRIAGE Full-Stack App...")
+    print("🚀 Booting NEOVERSE Full-Stack App...")
     import subprocess
     import time
     try:
@@ -78,7 +78,7 @@ def route(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="ARM-TRIAGE: Enterprise inference router for Arm Neoverse (Oracle Ampere A1)."
+        description="NEOVERSE: Enterprise inference router for Arm Neoverse (Oracle Ampere A1)."
     )
     
     subparsers = parser.add_subparsers(dest="command", help="Available commands")

@@ -3,13 +3,13 @@ import os
 import platform
 from typing import Dict, Any
 
-DEMO_MODE = os.environ.get("ARM_TRIAGE_DEMO") == "1" or platform.system() == "Darwin" or os.environ.get("VERCEL") == "1"
+DEMO_MODE = os.environ.get("NEOVERSE_DEMO") == "1" or platform.system() == "Darwin" or os.environ.get("VERCEL") == "1"
 
 if not DEMO_MODE:
     try:
         from vllm import LLM, SamplingParams
     except ImportError:
-        raise ImportError("CRITICAL: vLLM is not installed. ARM-TRIAGE must be deployed on an Arm64 Linux environment (e.g., Oracle Cloud Ampere A1) with vLLM installed to utilize the Arm Compute Library (ACL).")
+        raise ImportError("CRITICAL: vLLM is not installed. NEOVERSE must be deployed on an Arm64 Linux environment (e.g., Oracle Cloud Ampere A1) with vLLM installed to utilize the Arm Compute Library (ACL).")
 
 class LocalInferenceEngine:
     """
@@ -25,7 +25,7 @@ class LocalInferenceEngine:
 
     def _load_model(self):
         if DEMO_MODE:
-            print("🚨 ARM_TRIAGE_DEMO MODE ACTIVE: Bypassing vLLM hardware checks for local macOS execution.")
+            print("🚨 NEOVERSE_DEMO MODE ACTIVE: Bypassing vLLM hardware checks for local macOS execution.")
             return
 
         full_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), self.model_path)
