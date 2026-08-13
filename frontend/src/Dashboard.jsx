@@ -43,9 +43,9 @@ export default function Dashboard({ onBack }) {
 
       const data = await response.json()
       
-      // Update Savings
+      // Update Savings (Simulated at Enterprise Scale: 1 Million Requests/Day for 30 Days)
       if (data.triage.cost_saved) {
-        setSavings(prev => prev + data.triage.cost_saved)
+        setSavings(prev => prev + (data.triage.cost_saved * 30000000))
       }
 
       // Format Meta Strings
@@ -116,8 +116,8 @@ export default function Dashboard({ onBack }) {
         </div>
         
         <div className={`savings-ticker ${bumpTicker ? 'bump' : ''}`}>
-          <span className="ticker-label">Cloud Cost Avoided</span>
-          <span className="ticker-value">${savings.toFixed(4)}</span>
+          <span className="ticker-label">Projected Enterprise Savings (Monthly)</span>
+          <span className="ticker-value">${savings.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
         </div>
       </div>
 
