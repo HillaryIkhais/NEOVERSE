@@ -45,19 +45,19 @@ class LocalInferenceEngine:
         Executes local inference and returns the response alongside strict OpenTelemetry hardware metrics.
         """
         if DEMO_MODE:
-            import subprocess
             import platform
             import time
+            import os
             
-            # For the demo recording on Mac, we physically stress the Arm CPU for 1.2s 
+            # For the demo recording on Mac, we trigger the custom telemetry dashboard
+            # by touching a .trigger file, which the telemetry script is polling for.
             if platform.system() in ["Darwin", "Linux"]:
-                procs = []
-                for _ in range(4):
-                    p = subprocess.Popen(["yes"], stdout=subprocess.DEVNULL)
-                    procs.append(p)
+                try:
+                    with open(".trigger", "w") as f:
+                        f.write("1")
+                except:
+                    pass
                 time.sleep(1.2)
-                for p in procs:
-                    p.terminate()
             else:
                 time.sleep(1.2)
                 
