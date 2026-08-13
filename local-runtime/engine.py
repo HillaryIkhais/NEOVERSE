@@ -3,7 +3,7 @@ import os
 import platform
 from typing import Dict, Any
 
-DEMO_MODE = os.environ.get("ARM_TRIAGE_DEMO") == "1" or platform.system() == "Darwin"
+DEMO_MODE = os.environ.get("ARM_TRIAGE_DEMO") == "1" or platform.system() == "Darwin" or os.environ.get("VERCEL") == "1"
 
 if not DEMO_MODE:
     try:
