@@ -48,13 +48,12 @@ export default function Dashboard({ onBack }) {
         setSavings(prev => prev + (data.triage.cost_saved * 30000000))
       }
 
-      // Format Meta Strings
       let triageMeta = ''
       let badgeClass = 'local'
       if (data.decision === 'LOCAL') {
-        triageMeta = `Arm64 (${data.triage.engine}) | Latency: ${data.triage.latency_sec.toFixed(3)}s | ${data.triage.tps} TPS | Saved: $${data.triage.cost_saved.toFixed(4)}`
+        triageMeta = `Arm64 (${data.triage.engine}) | Latency: ${data.triage.latency_sec.toFixed(3)}s | ${data.triage.tps} TPS`
       } else if (data.decision === 'CACHE_HIT') {
-        triageMeta = `CACHE_HIT (0ms) | Saved: $${data.triage.cost_saved.toFixed(4)}`
+        triageMeta = `CACHE_HIT (0ms)`
       } else if (data.decision === 'FALLBACK') {
         triageMeta = `Deterministic Rule: ${data.reasons[data.reasons.length - 1]}`
         badgeClass = 'fallback'
@@ -63,7 +62,7 @@ export default function Dashboard({ onBack }) {
         badgeClass = 'cloud'
       }
 
-      const naiveMeta = `Latency: ${data.naive.latency_sec.toFixed(2)}s | Cost: $${data.naive.cost.toFixed(4)}`
+      const naiveMeta = `Latency: ${data.naive.latency_sec.toFixed(2)}s`
 
       // Set Responses
       setHistoryNaive(prev => [...prev, {
@@ -116,7 +115,7 @@ export default function Dashboard({ onBack }) {
         </div>
         
         <div className={`savings-ticker ${bumpTicker ? 'bump' : ''}`}>
-          <span className="ticker-label">Projected Enterprise Savings (Monthly)</span>
+          <span className="ticker-label">Projected Monthly Savings (at scale)</span>
           <span className="ticker-value">${savings.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
         </div>
       </div>
