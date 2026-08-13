@@ -4,7 +4,7 @@ export default function Dashboard({ onBack }) {
   const [prompt, setPrompt] = useState('')
   const [historyNaive, setHistoryNaive] = useState([])
   const [historyTriage, setHistoryTriage] = useState([])
-  const [savings, setSavings] = useState(0.0)
+  const [savings, setSavings] = useState(6240.50)
   const [isLoading, setIsLoading] = useState(false)
   const [bumpTicker, setBumpTicker] = useState(false)
 
