@@ -32,16 +32,15 @@ class ComplexityClassifier:
         
         for keyword in self.high_complexity_keywords:
             if keyword in lower_text:
-                score += 2.0
+                score += 5.0
                 
         for pattern in self.code_patterns:
             if re.search(pattern, text):
-                score += 1.5
+                score += 3.0
                 
-        # Length acts as a multiplier for difficulty (long context is harder)
+        # Length acts as a multiplier, but should never penalize a semantically complex short prompt
         tokens = self.estimate_tokens(text)
-        # Avoid math domain error with small inputs
-        length_multiplier = math.log10(tokens + 10) / 2.0
+        length_multiplier = max(1.0, math.log10(tokens + 10) / 2.0)
         
         return min(10.0, score * length_multiplier)
 
