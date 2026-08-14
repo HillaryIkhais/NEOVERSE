@@ -4,30 +4,30 @@
 
 ---
 
-## 🏆 Hackathon Submission Details
+## Hackathon Submission Details
 
 **Challenge Track:** Cloud AI  
 **Project Name:** NEOVERSE  
-**Declaration:** We confirm that all work submitted for this project was created and meaningfully updated during the official Arm AI Optimization Challenge 2026 period.
 
-### 🎯 What We Built
+
+### What We Built
 NEOVERSE is an intelligent, deterministic proxy gateway designed to act as a 100% drop-in replacement for the OpenAI API. It intercepts incoming LLM prompts and uses a proprietary, sub-2ms mathematical algorithm to classify their semantic complexity. 
 * Highly complex prompts are safely routed to expensive cloud models.
 * Simple/Trivial prompts (which make up ~70% of enterprise traffic) are **intercepted and executed locally** on Arm64 edge nodes (e.g., Oracle Cloud Ampere A1).
 
-### 🚀 How NEOVERSE Targets & Improves Arm-Powered Platforms
+### How NEOVERSE Targets & Improves Arm-Powered Platforms
 Currently, the industry relies on a "cloud-first" approach for AI, entirely ignoring the massive compute potential of Edge Arm nodes. NEOVERSE directly targets **Arm Neoverse N1/V1 architecture** (specifically Oracle Ampere A1 and AWS Graviton). By intercepting traffic and routing it to optimized Arm CPUs instead of cloud GPUs, NEOVERSE proves that Arm infrastructure is more than capable of handling enterprise data-extraction and formatting workloads at a fraction of the cost and power consumption.
 
-### ⚡ Optimizations & Benchmarks
-Our core optimization focus was **maximizing CPU inference throughput and lowering Time-to-First-Token (TTFT)** on Arm64 architecture:
+### Optimizations & Benchmarks
+The core optimization focus was **maximizing CPU inference throughput and lowering Time-to-First-Token (TTFT)** on Arm64 architecture:
 1. **Model Size:** Utilized `INT4` quantized models specifically optimized for CPU execution.
-2. **Arm Framework Improvements:** Built our execution layer on top of **vLLM** configured to utilize the **Arm Compute Library (ACL)** and **KleidiAI** micro-kernels. This forces matrix multiplications (like `SDOT` and `MMLA` instructions) natively onto the Neoverse cores.
+2. **Arm Framework Improvements:** Built the execution layer on top of **vLLM** configured to utilize the **Arm Compute Library (ACL)** and **KleidiAI** micro-kernels. This forces matrix multiplications (like `SDOT` and `MMLA` instructions) natively onto the Neoverse cores.
 3. **Latency:** Implemented a **Multi-Agent Prompt Cache** utilizing `ThreadPoolExecutor` for parallel hash lookups, achieving **0ms latency** on repeated edge queries without spinning up the CPU.
 4. **Developer Workflow:** Developed a frictionless drop-in API replacement. Developers simply swap `api.openai.com` with their `neoverse` edge IP, requiring zero architectural changes to existing apps.
 
 ---
 
-## 🏗 Architecture (The Deterministic Boundary)
+## Architecture (The Deterministic Boundary)
 
 ```mermaid
 graph TD
@@ -48,11 +48,11 @@ graph TD
     end
     
     subgraph Local Environment
-        LocalRuntime --> vLLM["vLLM / INT4 (KleidiAI Micro-kernels)"]
+        LocalRuntime --> vLLM[vLLM / INT4 (KleidiAI Micro-kernels)]
     end
 ```
 
-## 🛠 Setup & Validation Instructions
+## Setup & Validation Instructions
 
 NEOVERSE natively compiles against the Arm Compute Library via oneDNN and KleidiAI on **Oracle Cloud Infrastructure (OCI) Ampere A1 (Arm Neoverse)** instances.
 
