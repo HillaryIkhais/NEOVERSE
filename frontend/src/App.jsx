@@ -10,6 +10,7 @@ function App() {
   const [activeView, setActiveView] = useState('landing') // 'landing' or 'app'
   const [activeTab, setActiveTab] = useState('playground')
   const [motionPending, setMotionPending] = useState(true)
+  const videoRef = useRef(null)
 
   useEffect(() => {
     // Entrance motion fallback
@@ -17,12 +18,20 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true
+      videoRef.current.play().catch(e => console.log('Autoplay prevented:', e))
+    }
+  }, [])
+
   return (
     <>
       {/* Background Video */}
       <video 
+        ref={videoRef}
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_064556_051587f1-74a1-4336-8c05-4dde3594ed05.mp4" 
-        autoPlay muted defaultMuted loop playsInline disablePictureInPicture aria-hidden="true"
+        autoPlay muted loop playsInline disablePictureInPicture aria-hidden="true"
         className="background"
       />
       
