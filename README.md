@@ -48,7 +48,7 @@ graph TD
     end
     
     subgraph Local Environment
-        LocalRuntime --> vLLM[vLLM / INT4 (KleidiAI Micro-kernels)]
+        LocalRuntime --> vLLM["vLLM / INT4 (KleidiAI Micro-kernels)"]
     end
 ```
 
