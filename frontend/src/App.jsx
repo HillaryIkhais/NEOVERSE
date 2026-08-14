@@ -11,6 +11,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('playground')
   const [motionPending, setMotionPending] = useState(true)
   const videoRef = useRef(null)
+  const canvasRef = useRef(null)
 
   useEffect(() => {
     // Entrance motion fallback
@@ -19,21 +20,42 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = true
-      videoRef.current.play().catch(e => console.log('Autoplay prevented:', e))
+    const video = videoRef.current
+    const canvas = canvasRef.current
+    if (!video || !canvas) return
+
+    let animationFrameId
+    const ctx = canvas.getContext('2d')
+
+    // Force play the hidden video (Fix React muted bug)
+    video.muted = true
+    video.play().catch(e => console.log('Autoplay prevented:', e))
+
+    const renderFrame = () => {
+      if (video.readyState >= 2) {
+        if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+          canvas.width = video.videoWidth
+          canvas.height = video.videoHeight
+        }
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+      }
+      animationFrameId = requestAnimationFrame(renderFrame)
     }
+
+    renderFrame()
+    return () => cancelAnimationFrame(animationFrameId)
   }, [])
 
   return (
     <>
-      {/* Background Video */}
+      {/* Background rendering logic */}
       <video 
         ref={videoRef}
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_064556_051587f1-74a1-4336-8c05-4dde3594ed05.mp4" 
-        autoPlay muted loop playsInline disablePictureInPicture aria-hidden="true"
-        className="background"
+        autoPlay muted defaultMuted loop playsInline disablePictureInPicture aria-hidden="true"
+        style={{ position: 'absolute', width: '1px', height: '1px', opacity: 0.01, pointerEvents: 'none', zIndex: -999 }}
       />
+      <canvas ref={canvasRef} className="background" aria-hidden="true" />
       
       <div className={`viewport ${motionPending ? 'motion-pending' : ''}`}>
         
