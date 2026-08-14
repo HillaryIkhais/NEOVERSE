@@ -18,7 +18,7 @@ const TypewriterText = ({ text }) => {
   return <>{text.substring(0, displayedLength)}</>;
 }
 
-export default function Dashboard({ onBack }) {
+export default function Dashboard({ onBack, hideBackBtn }) {
   const [prompt, setPrompt] = useState('')
   const [historyNaive, setHistoryNaive] = useState([])
   const [historyTriage, setHistoryTriage] = useState([])
@@ -132,12 +132,14 @@ export default function Dashboard({ onBack }) {
     <div className="dashboard-container">
       <div className="dashboard-header anim-fade" style={{ animationDelay: '0ms' }}>
         <div>
-          <button className="back-button" onClick={onBack}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            Back to Home
-          </button>
+          {!hideBackBtn && (
+            <button className="back-button" onClick={onBack}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              Back to Home
+            </button>
+          )}
           <h1 className="dash-brand-title">NEOVERSE</h1>
           <p className="dash-brand-subtitle">Oracle Cloud Ampere A1 (aarch64) • vLLM • KleidiAI</p>
         </div>
@@ -156,7 +158,7 @@ export default function Dashboard({ onBack }) {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
               Standard Cloud Gateway
             </h2>
-            <p className="panel-subtitle">Unoptimized Direct-to-Cloud Routing (Baseline)</p>
+            <p className="panel-subtitle">Sends everything to the cloud. High Cost, High Latency.</p>
           </div>
           
           <div className="chat-history">
@@ -165,8 +167,8 @@ export default function Dashboard({ onBack }) {
                 <div className="empty-state-icon">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
                 </div>
-                <h3>Standard Ingress (Unoptimized)</h3>
-                <p>All inference requests bypass local edge infrastructure and route directly to primary cloud endpoints, resulting in maximum API spend and baseline network latency.</p>
+                <h3>Standard Cloud Gateway</h3>
+                <p>See how a standard cloud endpoint handles your query in terms of latency and cost.</p>
                 <div className="suggested-prompts">
                   <button className="suggested-btn" onClick={() => setPrompt('Extract the names and emails from this text block.')}>
                     "Extract the names and emails from this text block."
@@ -201,7 +203,7 @@ export default function Dashboard({ onBack }) {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
               NEOVERSE
             </h2>
-            <p className="panel-subtitle">Intelligent Edge Inference & Cloud Fallback</p>
+            <p className="panel-subtitle">Routes to local Arm node first. Zero API cost.</p>
           </div>
           
           <div className="chat-history">
@@ -210,8 +212,8 @@ export default function Dashboard({ onBack }) {
                 <div className="empty-state-icon">
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                 </div>
-                <h3>NEOVERSE Edge Gateway</h3>
-                <p>Incoming traffic is algorithmically classified. Trivial workloads are intercepted and processed on local Arm Neoverse cores with zero API cost. Complex workloads are seamlessly proxied to the cloud.</p>
+                <h3>Test the Router</h3>
+                <p>Send a prompt to see if NEOVERSE can intercept it locally, or if it routes it to the cloud.</p>
                 <div className="suggested-prompts">
                   <button className="suggested-btn" onClick={() => setPrompt('Format this JSON payload into a readable list.')}>
                     "Format this JSON payload into a readable list."
@@ -245,7 +247,7 @@ export default function Dashboard({ onBack }) {
           type="text" 
           value={prompt} 
           onChange={(e) => setPrompt(e.target.value)} 
-          placeholder="Enter a natural language query or execution payload..."
+          placeholder="Enter a prompt..."
           disabled={isLoading}
         />
         <button type="submit" disabled={isLoading || !prompt.trim()}>

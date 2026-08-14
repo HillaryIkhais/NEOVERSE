@@ -27,13 +27,13 @@ export default function Landing({ onEnter }) {
             <span className="line line-two" style={{ overflow: 'hidden' }}><span className="line-reveal anim-text-reveal" style={{ display: 'inline-block', animationDelay: '500ms' }}>Everything To The Cloud.</span></span>
           </h1>
           <p className="hero-copy anim-fade-up" style={{ animationDelay: '800ms' }}>
-            Your LLM traffic is needlessly scattered across expensive cloud endpoints.<br/>
-            NEOVERSE dynamically intercepts and processes edge workloads on<br/>
-            Arm infrastructure, maximizing enterprise Performance-per-Watt.
+            Your API queries are currently being routed to expensive cloud models.<br/>
+            NEOVERSE intercepts simple queries and runs them locally on an Arm node,<br/>
+            saving you money and reducing latency.
           </p>
           <button className="primary-cta anim-fade-up" style={{ animationDelay: '1000ms' }} onClick={onEnter}>
             <div className="primary-cta-inner-bg"></div>
-            <span className="label">Enter Dashboard</span>
+            <span className="label">Open Dashboard</span>
             <div className="arrow-box">
               <svg viewBox="0 0 14 14" width="14" height="14" stroke="black" strokeWidth="1.5" fill="none">
                 <path d="M3 7h8M7 3l4 4-4 4"/>
@@ -48,14 +48,13 @@ export default function Landing({ onEnter }) {
             <span className="line line-one" style={{ overflow: 'hidden' }}><span className="line-reveal anim-text-reveal" style={{ display: 'inline-block', animationDelay: '100ms' }}>Intelligent Interception.</span></span>
           </h1>
           <p className="hero-copy anim-fade-up" style={{ animationDelay: '300ms' }}>
-            By deploying an Oracle Ampere A1 gateway in front of the cloud, <br/>
-            we mathematically classify incoming API traffic. Trivial workloads <br/>
-            are executed locally using an optimized INT4 model (via KleidiAI), <br/>
-            while complex reasoning tasks are safely proxied to the cloud.
+            By placing an Arm node in front of the cloud, we instantly check if a<br/>
+            query is simple or complex. Simple queries are handled locally for free,<br/>
+            and complex ones are seamlessly passed to the cloud.
           </p>
           <button className="primary-cta anim-fade-up" style={{ animationDelay: '500ms' }} onClick={onEnter}>
             <div className="primary-cta-inner-bg"></div>
-            <span className="label">Initialize Gateway</span>
+            <span className="label">Test the Router</span>
             <div className="arrow-box">
               <svg viewBox="0 0 14 14" width="14" height="14" stroke="black" strokeWidth="1.5" fill="none">
                 <path d="M3 7h8M7 3l4 4-4 4"/>
@@ -70,14 +69,13 @@ export default function Landing({ onEnter }) {
             <span className="line line-one" style={{ overflow: 'hidden' }}><span className="line-reveal anim-text-reveal" style={{ display: 'inline-block', animationDelay: '100ms' }}>Zero API Cost.</span></span>
           </h1>
           <p className="hero-copy anim-fade-up" style={{ animationDelay: '300ms' }}>
-            Routing to local Arm64 edge nodes eliminates API tokens for <br/>
-            a massive subset of your traffic. Cache hits resolve in 0ms, and local <br/>
-            generation resolves at hardware speed. You only pay for the deep <br/>
-            reasoning tasks that actually require a cloud GPU.
+            Running inference locally on an Arm node completely eliminates API costs<br/>
+            for many of your queries. Cache hits resolve in 0ms, and local generation<br/>
+            is incredibly fast. You only pay for what you actually need to send to the cloud.
           </p>
           <button className="primary-cta anim-fade-up" style={{ animationDelay: '500ms' }} onClick={onEnter}>
             <div className="primary-cta-inner-bg"></div>
-            <span className="label">View Telemetry</span>
+            <span className="label">See The Savings</span>
             <div className="arrow-box">
               <svg viewBox="0 0 14 14" width="14" height="14" stroke="black" strokeWidth="1.5" fill="none">
                 <path d="M3 7h8M7 3l4 4-4 4"/>
