@@ -39,7 +39,7 @@ graph TD
         Classifier --> SafetyGate{Deterministic Safety Gate}
         SafetyGate --> |Valid| Router[Router Agent]
         SafetyGate --> |Invalid| Fallback[Human-in-the-Loop Fallback]
-        DeviceState[(Device State: Queue, Thermals)] --> Router
+        DeviceState[("Device State: Queue, Thermals")] --> Router
     end
     
     subgraph Execution Layer
@@ -48,7 +48,7 @@ graph TD
     end
     
     subgraph Local Environment
-        LocalRuntime --> vLLM[vLLM / INT4 (KleidiAI Micro-kernels)]
+        LocalRuntime --> vLLM["vLLM / INT4 (KleidiAI Micro-kernels)"]
     end
 ```
 
