@@ -27,8 +27,8 @@ export default function Landing({ onEnter }) {
             <span className="line line-two" style={{ overflow: 'hidden' }}><span className="line-reveal anim-text-reveal" style={{ display: 'inline-block', animationDelay: '500ms' }}>Everything To The Cloud.</span></span>
           </h1>
           <p className="hero-copy anim-fade-up" style={{ animationDelay: '800ms' }}>
-            Your API queries are currently being routed to expensive cloud models.<br/>
-            NEOVERSE intercepts simple queries and runs them locally on an Arm node,<br/>
+            Your API queries are currently being routed to expensive cloud models.
+            NEOVERSE intercepts simple queries and runs them locally on an Arm node,
             saving you money and reducing latency.
           </p>
           <button className="primary-cta anim-fade-up" style={{ animationDelay: '1000ms' }} onClick={onEnter}>
@@ -48,8 +48,8 @@ export default function Landing({ onEnter }) {
             <span className="line line-one" style={{ overflow: 'hidden' }}><span className="line-reveal anim-text-reveal" style={{ display: 'inline-block', animationDelay: '100ms' }}>Intelligent Interception.</span></span>
           </h1>
           <p className="hero-copy anim-fade-up" style={{ animationDelay: '300ms' }}>
-            By placing an Arm node in front of the cloud, we instantly check if a<br/>
-            query is simple or complex. Simple queries are handled locally for free,<br/>
+            By placing an Arm node in front of the cloud, we instantly check if a 
+            query is simple or complex. Simple queries are handled locally for free, 
             and complex ones are seamlessly passed to the cloud.
           </p>
           <button className="primary-cta anim-fade-up" style={{ animationDelay: '500ms' }} onClick={onEnter}>
@@ -69,8 +69,8 @@ export default function Landing({ onEnter }) {
             <span className="line line-one" style={{ overflow: 'hidden' }}><span className="line-reveal anim-text-reveal" style={{ display: 'inline-block', animationDelay: '100ms' }}>Zero API Cost.</span></span>
           </h1>
           <p className="hero-copy anim-fade-up" style={{ animationDelay: '300ms' }}>
-            Running inference locally on an Arm node completely eliminates API costs<br/>
-            for many of your queries. Cache hits resolve in 0ms, and local generation<br/>
+            Running inference locally on an Arm node completely eliminates API costs 
+            for many of your queries. Cache hits resolve in 0ms, and local generation 
             is incredibly fast. You only pay for what you actually need to send to the cloud.
           </p>
           <button className="primary-cta anim-fade-up" style={{ animationDelay: '500ms' }} onClick={onEnter}>
